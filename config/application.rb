@@ -5,6 +5,8 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+Dotenv::Railtie.load
+ROOT_URL = ENV['ROOT_URL']
 
 module UrlShortner
   class Application < Rails::Application
