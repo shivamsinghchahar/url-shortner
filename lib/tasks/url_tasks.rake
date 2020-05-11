@@ -9,13 +9,13 @@ namespace :app do
     end
     
     if url.save
-      puts "The shortened url of #{ENV['URL']} is #{url.shortend_url}"
+      puts "The shortened url of #{ENV['URL']} is #{url.shortened_url}"
     end
   end
 
   desc "Decode the given URL"
   task decode: :environment do
-    url = Url.find_by(shortend_url: ENV['SHORTURL'])
+    url = Url.find_by(shortened_url: ENV['SHORTURL'])
     if url
       puts "The original url of short url #{ENV['SHORTURL']} is #{url.original_url}"
     else
