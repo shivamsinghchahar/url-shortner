@@ -14,11 +14,11 @@ ActiveRecord::Schema.define(version: 2020_05_11_042724) do
 
   create_table "urls", force: :cascade do |t|
     t.string "original_url", null: false
-    t.string "shortend_url", null: false
+    t.string "shortened_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["original_url"], name: "index_urls_on_original_url", unique: true
-    t.index ["shortend_url"], name: "index_urls_on_shortend_url", unique: true
+    t.index ["shortened_url"], name: "index_urls_on_shortened_url", unique: true
   end
 
 end
