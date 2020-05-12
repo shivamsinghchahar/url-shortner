@@ -1,7 +1,39 @@
 require 'test_helper'
 
 class UrlTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @url = Url.new(original_url: "http://example.com")
+    @url.shorten_url
+    @url.save
+  end
+
+  test "should be valid" do
+    assert @url.valid?
+  end
+
+  test "original url should be valid" do
+    new_url = @url
+    new_url.original_url = " " * 6
+    assert_not new_url.valid?
+    assert_equal ["can't be blank", "Valid URL required"], new_url.errors[:original_url]
+  end
+
+  test "original url should be unique" do
+    new_url = Url.new(original_url: @url.original_url)
+    assert_not new_url.valid?
+    assert_equal ["has already been taken"], new_url.errors[:original_url]
+  end
+
+  test "shortened url should be valid" do
+    new_url = @url
+    new_url.shortend_url = " " * 6
+    assert_not new_url.valid?
+    assert_equal ["can't be blank", "Valid URL required"], new_url.errors[:shortend_url]
+  end
+
+  test "shortened url should be unique" do
+    new_url = Url.new(original_url: @url.original_url, shortend_url: @url.shortend_url)
+    assert_not new_url.valid?
+    assert_equal ["has already been taken"], new_url.errors[:shortend_url]
+  end
 end
