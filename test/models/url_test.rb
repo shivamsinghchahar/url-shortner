@@ -26,14 +26,14 @@ class UrlTest < ActiveSupport::TestCase
 
   test "shortened url should be valid" do
     new_url = @url
-    new_url.shortend_url = " " * 6
+    new_url.shortened_url = " " * 6
     assert_not new_url.valid?
-    assert_equal ["can't be blank", "Valid URL required"], new_url.errors[:shortend_url]
+    assert_equal ["can't be blank", "Valid URL required"], new_url.errors[:shortened_url]
   end
 
   test "shortened url should be unique" do
-    new_url = Url.new(original_url: @url.original_url, shortend_url: @url.shortend_url)
+    new_url = Url.new(original_url: @url.original_url, shortened_url: @url.shortened_url)
     assert_not new_url.valid?
-    assert_equal ["has already been taken"], new_url.errors[:shortend_url]
+    assert_equal ["has already been taken"], new_url.errors[:shortened_url]
   end
 end
