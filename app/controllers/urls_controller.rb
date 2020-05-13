@@ -2,7 +2,7 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    @url = Url.find_by(original_url: url_params[:original_url])
+    @url = Url.find_by(url_params)
     
     if @url
       render status: :ok, json: { success: true, original_url: @url.original_url, shortened_url: "#{ROOT_URL}/#{@url.slug}" } 
