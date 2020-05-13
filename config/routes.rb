@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  get "/:shortened_url" => "urls#show"
-  resource :urls, only: [:create, :show]
+  get "/:slug" => "urls#show"
+  resources :urls, only: [:create, :show], param: :slug
 end
