@@ -10,6 +10,8 @@ namespace :app do
     
     if url.save
       puts "The shortened url of #{ENV['URL']} is #{ROOT_URL}/#{url.slug}"
+    else
+      puts url.errors[:original_url]
     end
   end
 
