@@ -38,8 +38,10 @@ class UrlTest < ActiveSupport::TestCase
   end
 
   test "pinned should be present" do
-    new_url = Url.new(original_url: "http://bigbinary.com", pinned: '')
-    assert_not new_url.valid?
-    assert_equal ["can't be blank"], new_url.errors[:pinned]
+    new_url = Url.new(original_url: "http://bigbinary.com", pinned: nil)
+    new_url.shorten_url
+    error = assert_raises ActiveRecord::NotNullViolation do
+      new_url.save
+    end
   end
 end
