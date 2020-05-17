@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UrlTest < ActiveSupport::TestCase
   setup do
-    @url = Url.new(original_url: "http://example.com")
+    @url = Url.new(original_url: "http://example.com", pinned: true)
     @url.shorten_url
     @url.save
   end
@@ -35,5 +35,11 @@ class UrlTest < ActiveSupport::TestCase
     new_url = Url.new(original_url: @url.original_url, slug: @url.slug)
     assert_not new_url.valid?
     assert_equal ["has already been taken"], new_url.errors[:slug]
+  end
+
+  test "pinned should be present" do
+    new_url = Url.new(original_url: "http://bigbinary.com", pinned: '')
+    assert_not new_url.valid?
+    assert_equal ["can't be blank"], new_url.errors[:pinned]
   end
 end
