@@ -2,6 +2,7 @@ class Url < ApplicationRecord
   validates :original_url, presence: true, format: { with: URI::regexp(%w(http https)), message: "Valid URL required"},
             uniqueness: true
   validates :slug, presence: true, uniqueness: true
+  validates :pinned, presence: true
 
   def shorten_url
     loop do
