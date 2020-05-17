@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import API from '../../utils/API'
+
 export default function Form(props) {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -7,15 +9,7 @@ export default function Form(props) {
   function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    fetch('/urls', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content,
-      },
-      body: JSON.stringify({ url: { original_url: url } }),
-    })
+    API.request('/urls', 'POST', { url: { original_url: url } })
       .then(res => res.json())
       .then(data => {
         setLoading(false);
