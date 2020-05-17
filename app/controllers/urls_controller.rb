@@ -1,8 +1,9 @@
 class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :load_url, only: [:update, :show]
 
   def index
-    @urls = Url.all
+    @urls = Url.order(pinned: :desc)
   end
 
   def create
@@ -21,8 +22,6 @@ class UrlsController < ApplicationController
   end
 
   def show
-    @url = Url.find_by(slug: params[:slug])
-
     if @url
       render status: :ok, json: { success: true, original_url: @url.original_url }
     else
@@ -30,8 +29,23 @@ class UrlsController < ApplicationController
     end
   end
 
+  def update
+    if @url.update(pinned: url_params[:pinned])
+      render status: :ok, json: { url: @url, message: "Url Pinned!" }
+    else
+      render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
+    end
+  end
+
   private
     def url_params
-      params.require(:url).permit(:original_url)
+      params.require(:url).permit(:original_url, :pinned)
+    end
+
+    def load_url
+      @url = Url.find_by(slug: params[:slug])
+      unless @url
+        render status: :not_found, json: { message: 'Url not found' }
+      end
     end
 end
