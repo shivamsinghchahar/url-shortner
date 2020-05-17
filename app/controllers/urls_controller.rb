@@ -1,6 +1,10 @@
 class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def index
+    @urls = Url.all
+  end
+
   def create
     @url = Url.find_by(url_params)
     
