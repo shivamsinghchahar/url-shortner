@@ -5,24 +5,25 @@ import API from '../../utils/API'
 export default class UrlCard extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      loading: false,
+  }
+
+  handlePin = async (url) => {
+    const { setLoading, updateUrls } = this.props
+    try {
+      let res = await API.request(`/urls/${url.slug}`, 'PUT', { url: { pinned: url.pinned ? 0 : 1 } })
+      let data = await res.json()
+      if (data.errors) {
+        throw Error(data.errors)
+      } else {
+        updateUrls(data.url)
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
-  handlePin(url) {
-    API.request(`/urls/${url.slug}`, 'PUT', { url: { pinned: url.pinned ? 0 : 1 } })
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ loading: false }, () => {
-          window.location.reload()
-        })
-      })
-      .catch(err => console.error(err))
-  }
-
   render() {
-    const { url } = this.props
+    const { url, loading } = this.props
     return (
       <li className="bg-white mb-px">
         <article className="flex">
@@ -39,10 +40,10 @@ export default class UrlCard extends React.Component {
           <div className="flex justify-between w-full items-center">
             <a
               className="p-4 hover:underline"
-              href={url.original_url}
+              href={url.original}
               target="_blank"
             >
-              {url.original_url}
+              {url.original}
             </a>
             <a
               className="p-4 hover:underline"
