@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2020_05_17_102014) do
     t.string "slug", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "pinned", default: 0, null: false
+    t.boolean "pinned", default: false, null: false
     t.index ["original"], name: "index_urls_on_original", unique: true
     t.index ["slug"], name: "index_urls_on_slug", unique: true
   end

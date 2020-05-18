@@ -37,18 +37,13 @@ class UrlTest < ActiveSupport::TestCase
     assert_equal ["has already been taken"], new_url.errors[:slug]
   end
 
-  test "pinned should be present" do
+  test "pinned should be valid" do
     new_url = Url.new(original: "http://bigbinary.com", pinned: nil)
     new_url.shorten_url
-    error = assert_raises ActiveRecord::NotNullViolation do
+    assert new_url.valid?
+    e = assert_raises ActiveRecord::NotNullViolation do
       new_url.save
     end
+    assert_match /null value in column/, e.message
   end
-
-  test "pinned should be valid" do
-    new_url = Url.new(original: "http://bigbinary.com", pinned: 3)
-    new_url.shorten_url
-    assert_not new_url.valid?
-    assert_equal ["Invalid"], new_url.errors[:pinned]
-  end 
 end
