@@ -40,10 +40,10 @@ export default class UrlCard extends React.Component {
           <div className="flex justify-between w-full items-center">
             <a
               className="p-4 hover:underline"
-              href={url.original_url}
+              href={url.original}
               target="_blank"
             >
-              {url.original_url}
+              {url.original}
             </a>
             <a
               className="p-4 hover:underline"

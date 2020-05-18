@@ -8,7 +8,7 @@ export default function Form({ loading, addUrls, setLoading }) {
   async function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    let res = await API.request('/urls', 'POST', { url: { original_url: url } })
+    let res = await API.request('/urls', 'POST', { url: { original: url } })
     let data = await res.json()
     setLoading(false)
     if (data.errors) {

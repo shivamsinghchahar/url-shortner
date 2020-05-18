@@ -4,7 +4,7 @@ namespace :app do
 
   desc "Encode the given URL"
   task encode: :environment do
-    res = session.post routes.urls_path, params: { url: { original_url: ENV['URL'] } }
+    res = session.post routes.urls_path, params: { url: { original: ENV['URL'] } }
     data = JSON.parse(session.response.body)
 
     if res == 200
@@ -20,7 +20,7 @@ namespace :app do
     data = JSON.parse(session.response.body)
 
     if res == 200
-      puts "The original url of short url #{ENV['SHORTURL']} is #{data['url']['original_url']}"
+      puts "The original url of short url #{ENV['SHORTURL']} is #{data['url']['original']}"
     else
       puts "No original url was found for the  short url #{ENV['SHORTURL']}"
     end

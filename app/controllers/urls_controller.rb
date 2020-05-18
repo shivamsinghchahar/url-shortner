@@ -12,7 +12,7 @@ class UrlsController < ApplicationController
     if @url
       render status: :ok, json: { url: @url, shortened_url: "#{ROOT_URL}/#{@url.slug}" } 
     else
-      @url = Url.new(original_url: url_params[:original_url])
+      @url = Url.new(original: url_params[:original])
       @url.shorten_url
       if @url.save
         return render status: :ok, json: { url: @url, shortened_url: "#{ROOT_URL}/#{@url.slug}" }
@@ -39,7 +39,7 @@ class UrlsController < ApplicationController
 
   private
     def url_params
-      params.require(:url).permit(:original_url, :pinned)
+      params.require(:url).permit(:original, :pinned)
     end
 
     def load_url
