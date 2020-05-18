@@ -2,20 +2,21 @@ import React, { useState } from 'react'
 
 import API from '../../utils/API'
 
-export default function Form(props) {
+export default function Form({ loading, addUrls, setLoading }) {
   const [url, setUrl] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    API.request('/urls', 'POST', { url: { original_url: url } })
-      .then(res => res.json())
-      .then(data => {
-        setLoading(false);
-        window.location.reload();
-      })
-      .catch(err => console.error(err));
+    let res = await API.request('/urls', 'POST', { url: { original_url: url } })
+    let data = await res.json()
+    setLoading(false)
+    if (data.errors) {
+      throw Error(data.errors)
+    } else {
+      addUrls(data.url)
+      setUrl('')
+    }
   }
 
   return (

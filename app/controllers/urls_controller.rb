@@ -45,7 +45,7 @@ class UrlsController < ApplicationController
     def load_url
       @url = Url.find_by(slug: params[:slug])
       unless @url
-        render status: :not_found, json: { message: 'Url not found' }
+        render status: :not_found, json: { errors: ['Url not found'] }
       end
     end
 end
