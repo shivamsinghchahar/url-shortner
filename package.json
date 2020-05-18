@@ -12,11 +12,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react_ujs": "^2.6.1",
+    "tailwindcss": "^1.4.6",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "tailwindcss": "^1.4.6",
     "webpack-dev-server": "^3.11.0"
   }
 }

@@ -7,8 +7,8 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 unless ENV['RAILS_ENV'] == 'production'
   Dotenv::Railtie.load
-  ROOT_URL = ENV['ROOT_URL']
 end
+ROOT_URL = ENV['ROOT_URL']
 
 module UrlShortner
   class Application < Rails::Application
