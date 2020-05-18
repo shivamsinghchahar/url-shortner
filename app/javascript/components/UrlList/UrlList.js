@@ -6,6 +6,14 @@ export default function UrlList({ urls, loading, setLoading, updateUrls }) {
     <section className="my-4 w-4/6 p-4 my-0 mx-auto">
       <div>
         <ul className="border shadow-sm">
+          <li className="flex items-center justify-between bg-purple-600 mb-px p-4 text-white text-xl">
+            <p className="w-2/5 flex justify-center">
+              Original
+            </p>
+            <p className="w-2/5 flex justify-center">
+              Short
+            </p>
+          </li>
           {
             urls.map((url) => (<UrlCard
               url={url}
