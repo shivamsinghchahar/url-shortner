@@ -8,14 +8,30 @@ export default class UrlCard extends React.Component {
   }
 
   handlePin = async (url) => {
-    const { setLoading, updateUrls } = this.props
+    const { updateUrls } = this.props
     try {
-      let res = await API.request(`/urls/${url.slug}`, 'PUT', { url: { pinned: url.pinned ? 0 : 1 } })
+      let res = await API.request(`/urls/${url.slug}`, 'PUT', { url: { pinned: !url.pinned } })
       let data = await res.json()
       if (data.errors) {
         throw Error(data.errors)
       } else {
-        updateUrls(data.url)
+        await updateUrls(data.url)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  handleClick = async (url) => {
+    const { updateUrls } = this.props
+    try {
+      let res = await API.request(`/urls/${url.slug}/decode`, 'PUT')
+      let data = await res.json()
+      if (data.errors) {
+        throw Error(data.errors)
+      } else {
+        await updateUrls(data.url)
+        window.location.assign(data.url.original)
       }
     } catch (error) {
       console.error(error)
@@ -23,7 +39,7 @@ export default class UrlCard extends React.Component {
   }
 
   render() {
-    const { url, loading } = this.props
+    const { url } = this.props
     return (
       <li className="bg-white mb-px">
         <article className="flex">
@@ -45,14 +61,18 @@ export default class UrlCard extends React.Component {
             >
               {url.original}
             </a>
-            <a
+            <button
+              onClick={() => this.handleClick(url)}
               className="p-4 hover:underline"
-              href={window.location.href + url.slug}
-              target="_blank"
             >
               {window.location.href + url.slug}
-            </a>
+            </button>
           </div>
+          <aside className="flex items-center p-2">
+            <span className="bg-purple-300 p-2 border border-purple-400 text-white text-xs font-bold rounded-r-lg">
+              { url.clicks }
+            </span>
+          </aside>
         </article>
       </li>
     )
