@@ -1,12 +1,12 @@
 class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :load_url, only: [:update, :show]
+  before_action :load_url, only: [:update, :decode]
 
   def index
     @urls = Url.order(pinned: :desc, created_at: :desc)
   end
 
-  def create
+  def encode
     @url = Url.find_by(url_params)
     
     if @url
@@ -21,8 +21,8 @@ class UrlsController < ApplicationController
     end
   end
 
-  def show
-    if @url
+  def decode
+    if @url.update(clicks: @url.clicks + 1)
       render status: :ok, json: { url: @url }
     else
       render status: :not_found, json: { message: "URL does not exist" }
