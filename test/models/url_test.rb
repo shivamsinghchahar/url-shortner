@@ -46,4 +46,11 @@ class UrlTest < ActiveSupport::TestCase
     end
     assert_match /null value in column/, e.message
   end
+
+  test "clicks should be present" do
+    new_url = Url.new(original: "http://bigbinary.com", clicks: "  ")
+    new_url.shorten_url
+    assert_not new_url.valid?
+    assert_equal ["can't be blank"], new_url.errors[:clicks]
+  end
 end

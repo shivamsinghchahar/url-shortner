@@ -3,6 +3,7 @@ class Url < ApplicationRecord
             uniqueness: true
   validates :slug, presence: true, uniqueness: true
   validates :pinned, presence: true, allow_blank: true
+  validates :clicks, presence: true
 
   def shorten_url
     loop do
