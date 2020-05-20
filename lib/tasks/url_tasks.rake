@@ -16,7 +16,7 @@ namespace :app do
 
   desc "Decode the given URL"
   task decode: :environment do
-    res = session.put routes.decode_url_path(ENV['SHORTURL'].last(8))
+    res = session.get routes.decode_url_path(ENV['SHORTURL'].last(8))
     data = JSON.parse(session.response.body)
 
     if res == 200

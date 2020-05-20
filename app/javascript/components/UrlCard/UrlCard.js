@@ -10,7 +10,7 @@ export default class UrlCard extends React.Component {
   handlePin = async (url) => {
     const { updateUrls } = this.props
     try {
-      let res = await API.request(`/urls/${url.slug}`, 'PUT', { url: { pinned: !url.pinned } })
+      let res = await API.request(`/urls/${url.slug}`, 'PUT')
       let data = await res.json()
       if (data.errors) {
         throw Error(data.errors)
@@ -26,13 +26,13 @@ export default class UrlCard extends React.Component {
     const { setLoading, updateUrls } = this.props
     try {
       await setLoading(true)
-      let res = await API.request(`/urls/${url.slug}/decode`, 'PUT')
+      let res = await API.request(`/${url.slug}`, 'GET')
       let data = await res.json()
       if (data.errors) {
         throw Error(data.errors)
       } else {
         await updateUrls(data.url)
-        window.location.assign(data.url.original)
+        window.open(data.url.original)
       }
       await setLoading(false)
     } catch (error) {
@@ -44,7 +44,7 @@ export default class UrlCard extends React.Component {
     const { url, loading } = this.props
     return (
       <li className="bg-white mb-px">
-        <article className="flex">
+        <article className="flex justify-between">
           <aside className="flex">
             <button
               className={`${url.pinned ? 'text-purple-500' : 'text-gray-600'} p-4 bg-gray-100 hover:text-purple-400`}
@@ -56,9 +56,9 @@ export default class UrlCard extends React.Component {
               </svg>
             </button>
           </aside>
-          <div className="flex justify-between w-full items-center">
+          <div className="w-4/5 flex justify-between items-center">
             <a
-              className="p-4 hover:underline"
+              className="p-4 hover:underline text-gray-800 break-all"
               href={url.original}
               target="_blank"
               disabled={loading}
@@ -67,7 +67,7 @@ export default class UrlCard extends React.Component {
             </a>
             <button
               onClick={() => this.handleClick(url)}
-              className="p-4 hover:underline"
+              className="p-4 hover:underline text-gray-800 break-all"
               disabled={loading}
             >
               {window.location.href + url.slug}

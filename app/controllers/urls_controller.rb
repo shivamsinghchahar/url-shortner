@@ -1,18 +1,18 @@
 class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :load_url, only: [:update, :decode]
+  before_action :increment, only: :decode
 
   def index
-    @urls = Url.order(pinned: :desc, created_at: :desc)
+    render
   end
 
   def encode
-    @url = Url.find_by(url_params)
+    @url = Url.find_or_initialize_by(url_params)
     
-    if @url
+    unless @url.new_record?
       render status: :ok, json: { url: @url, shortened_url: "#{ROOT_URL}/#{@url.slug}" } 
     else
-      @url = Url.new(original: url_params[:original])
       @url.shorten_url
       if @url.save
         return render status: :ok, json: { url: @url, shortened_url: "#{ROOT_URL}/#{@url.slug}" }
@@ -22,7 +22,7 @@ class UrlsController < ApplicationController
   end
 
   def decode
-    if @url.update(clicks: @url.clicks + 1)
+    if @url
       render status: :ok, json: { url: @url }
     else
       render status: :not_found, json: { message: "URL does not exist" }
@@ -30,7 +30,7 @@ class UrlsController < ApplicationController
   end
 
   def update
-    if @url.update(pinned: url_params[:pinned])
+    if @url.toggle(:pinned).save
       render status: :ok, json: { url: @url, message: "Url Pinned!" }
     else
       render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
@@ -39,7 +39,7 @@ class UrlsController < ApplicationController
 
   private
     def url_params
-      params.require(:url).permit(:original, :pinned)
+      params.require(:url).permit(:original)
     end
 
     def load_url
@@ -47,5 +47,9 @@ class UrlsController < ApplicationController
       unless @url
         render status: :not_found, json: { errors: ['Url not found'] }
       end
+    end
+
+    def increment
+      @url.increment!(:clicks)
     end
 end
