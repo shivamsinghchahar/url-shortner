@@ -4,7 +4,7 @@ namespace :app do
 
   desc "Encode the given URL"
   task encode: :environment do
-    res = session.post routes.urls_path, params: { url: { original: ENV['URL'] } }
+    res = session.post routes.encode_urls_path, params: { url: { original: ENV['URL'] } }
     data = JSON.parse(session.response.body)
 
     if res == 200
@@ -16,7 +16,7 @@ namespace :app do
 
   desc "Decode the given URL"
   task decode: :environment do
-    res = session.get routes.url_path(ENV['SHORTURL'].last(8))
+    res = session.put routes.decode_url_path(ENV['SHORTURL'].last(8))
     data = JSON.parse(session.response.body)
 
     if res == 200
