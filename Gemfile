@@ -23,6 +23,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'react-rails'
 # Use Sidekiq for background jobs
 gem 'sidekiq'
+# User Whenever for scheduling jobs
+gem 'whenever'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

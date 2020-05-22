@@ -1,0 +1,21 @@
+<h1 style="text-align: center">Ur.ly Daily Report</h1>
+<table style="color: #2d3748">
+  <tr>
+    <th>Original</th>
+    <th>Short</th>
+    <th>Clicks</th>
+  </tr>
+  <% @urls.each do |url| %>
+    <tr>
+      <td>
+        <%= url.original %>
+      </td>
+      <td>
+        <%= "#{ROOT_URL}/#{url.slug}"%>
+      </td>
+      <td>
+        <%= url.clicks %>
+      </td>
+    </tr>
+  <% end %>
+</table>

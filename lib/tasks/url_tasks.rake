@@ -25,4 +25,9 @@ namespace :app do
       puts "No original url was found for the  short url #{ENV['SHORTURL']}"
     end
   end
+
+  desc "Daily reports"
+  task send_report: :environment do
+    ReportMailerWorker.perform_async    
+  end
 end
