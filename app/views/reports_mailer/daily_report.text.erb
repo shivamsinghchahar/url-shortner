@@ -1,0 +1,9 @@
+Ur.ly Daily Report
+===============================================
+
+Original             | Short            | Clicks
+===============================================
+
+<% @urls.each do |url| %>
+<%= "#{url.original}         #{ROOT_URL}/#{url.slug}          #{url.clicks}" %>
+<% end %>
