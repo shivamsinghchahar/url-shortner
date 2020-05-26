@@ -10,7 +10,7 @@ export default class UrlCard extends React.Component {
   handlePin = async (url) => {
     const { updateUrls } = this.props
     try {
-      let res = await API.request(`/urls/${url.slug}`, 'PUT')
+      let res = await API.request(`/${url.slug}`, 'PUT')
       let data = await res.json()
       if (data.errors) {
         throw Error(data.errors)
