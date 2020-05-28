@@ -30,7 +30,7 @@ jobs:
           RAILS_ENV: test
           ROOT_URL: localhost:3000
         run:
-          apt-get -yqq install libpq-dev
+          sudo apt-get -yqq install libpq-dev
           gem install bundler
           bundle install
           bundle exec rails db:prepare
