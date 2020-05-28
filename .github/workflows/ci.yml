@@ -30,7 +30,7 @@ jobs:
           RAILS_ENV: test
           ROOT_URL: localhost:3000
         run: |
-          apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
