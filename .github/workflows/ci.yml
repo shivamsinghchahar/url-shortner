@@ -20,6 +20,14 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.6.x
+      - name: Install libpq
+        run: sudo apt-get -yqq install libpq-dev
+      - name: Install dependencies
+        run: bundle install
+      - name: Setup DB
+        run: bundle exec rails db:prepare
+      - name: Run tests
+        run: bundle exec rails test
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
@@ -29,9 +37,3 @@ jobs:
           REDIS_URL: redis://localhost:6379:0
           RAILS_ENV: test
           ROOT_URL: localhost:3000
-        run:
-          sudo apt-get -yqq install libpq-dev
-          gem install bundler
-          bundle install
-          bundle exec rails db:prepare
-          bundle exec rails test
